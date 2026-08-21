@@ -44,6 +44,7 @@ Pure Career OS helpers used by the SPA live in `lib/` (bullet memory, cadence, r
 ### Export / import
 
 - **Board pack** (`CareerOps_board_pack.json`) — skill modes + Settings import (upsert). Schema v5 adds contacts, posted `comp_range`/`comp_raw`, and profile target band. API keys never exported or imported.
+- **Sample pack** — import [`docs/fixtures/sample-board-pack.json`](../docs/fixtures/sample-board-pack.json) (SEEDED / FICTIONAL) from Settings → Your data to try a populated board without real job data.
 - See the [Board Pack schema changelog](../docs/BOARD_PACK.md) for the v1 → v5 schema details.
 - **Full JSON** / **CSV** — Settings → Your data.
 
