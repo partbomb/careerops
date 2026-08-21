@@ -1,0 +1,159 @@
+{
+  "format": "careerops-board-pack/v5",
+  "schema_version": 5,
+  "exported_at": "2026-08-21T00:00:00.000Z",
+  "doctrine": {
+    "no_auto_apply": true,
+    "no_invented_facts": true,
+    "resume_struct_canonical": true,
+    "memory_provenance": true,
+    "no_auto_send": true
+  },
+  "profile": {
+    "resume_struct": null,
+    "resume_struct_rev": 0,
+    "structured_modified_at": null,
+    "bullet_memory_cadence": "off",
+    "cadence_timezone": null,
+    "cadence_anchor": null,
+    "last_entry_at": null,
+    "target_band_min": 120000,
+    "target_band_max": 150000,
+    "target_band_currency": "USD"
+  },
+  "stories": "SEEDED DEMO · FICTIONAL DATA — Acme checkout rewrite, Northwind inventory API.",
+  "find_prefs": null,
+  "roles": [
+    {
+      "id": "seed-role-acme-fullstack",
+      "company": "Acme Corp",
+      "title": "Full Stack Developer",
+      "stage": "applied",
+      "url": "https://example.com/jobs/acme-fullstack",
+      "jd": "Build customer-facing APIs and a React dashboard. Paste real JDs in production — this text is fictional.",
+      "match_score": 78,
+      "ghost_risk": "low",
+      "level": "mid",
+      "location": "Remote · US",
+      "sent_at": "2026-07-20T15:00:00.000Z",
+      "comp_range": {
+        "min": 110000,
+        "max": 135000,
+        "currency": "USD",
+        "interval": "year",
+        "label": "USD 110k – 135k"
+      },
+      "comp_raw": "USD 110k – 135k"
+    },
+    {
+      "id": "seed-role-northwind-backend",
+      "company": "Northwind Traders",
+      "title": "Backend Engineer",
+      "stage": "interview",
+      "url": "https://example.com/jobs/northwind-backend",
+      "jd": "Own Postgres query paths and integration tests for inventory services. Fictional posting.",
+      "match_score": 84,
+      "ghost_risk": "unknown",
+      "level": "mid",
+      "location": "Hybrid",
+      "sent_at": null,
+      "comp_range": {
+        "min": 125000,
+        "max": 145000,
+        "currency": "USD",
+        "interval": "year",
+        "label": "USD 125k – 145k"
+      },
+      "comp_raw": "USD 125k – 145k"
+    },
+    {
+      "id": "seed-role-contoso-sourced",
+      "company": "Contoso",
+      "title": "Platform Engineer",
+      "stage": "sourced",
+      "url": "https://example.com/jobs/contoso-platform",
+      "jd": "CI/CD and internal developer platform. Fictional.",
+      "ghost_risk": "medium",
+      "level": "senior",
+      "location": "Remote",
+      "sent_at": null,
+      "comp_range": null,
+      "comp_raw": null
+    }
+  ],
+  "materials": [],
+  "reports": [],
+  "accomplishments": [
+    {
+      "id": "seed-acc-1",
+      "body_original": "Refactored Acme checkout endpoints and cut p95 latency 35% (fictional metric for demo).",
+      "body_current": "Refactored Acme checkout endpoints and cut p95 latency 35% (fictional metric for demo).",
+      "revisions": [],
+      "status": "active",
+      "archived_at": null,
+      "role_id": null,
+      "employer": "Acme Corp",
+      "project": "Checkout rewrite",
+      "tags": ["performance", "api"],
+      "checked": true,
+      "promoted_role_id": null,
+      "promoted_bullet_id": null,
+      "promoted_at": null,
+      "promotion_snapshot": null,
+      "created_at": "2026-06-01T12:00:00.000Z",
+      "updated_at": "2026-06-01T12:00:00.000Z"
+    },
+    {
+      "id": "seed-acc-2",
+      "body_original": "Added integration tests covering Northwind inventory write path (fictional).",
+      "body_current": "Added integration tests covering Northwind inventory write path (fictional).",
+      "revisions": [],
+      "status": "inbox",
+      "archived_at": null,
+      "role_id": null,
+      "employer": "Northwind Traders",
+      "project": "Inventory API",
+      "tags": ["testing"],
+      "checked": false,
+      "promoted_role_id": null,
+      "promoted_bullet_id": null,
+      "promoted_at": null,
+      "promotion_snapshot": null,
+      "created_at": "2026-06-15T12:00:00.000Z",
+      "updated_at": "2026-06-15T12:00:00.000Z"
+    }
+  ],
+  "portfolio": [],
+  "outcomes": {},
+  "interview_events": [
+    {
+      "id": "seed-iv-1",
+      "role_id": "seed-role-northwind-backend",
+      "round": 1,
+      "type": "screen",
+      "scheduled_at": "2026-08-10T18:00:00.000Z",
+      "notes": "Recruiter screen — fictional.",
+      "interviewer_name": "Alex Recruiter",
+      "created_at": null
+    }
+  ],
+  "contacts": [
+    {
+      "id": "seed-contact-1",
+      "name": "Alex Recruiter",
+      "channel": "email",
+      "company": "Northwind Traders",
+      "role_ids": ["seed-role-northwind-backend"],
+      "last_touch_at": "2026-08-05T16:00:00.000Z",
+      "notes": "Fictional contact — outreach drafts only, never auto-send.",
+      "created_at": null
+    }
+  ],
+  "extensions": {
+    "plugins": [],
+    "fields": {
+      "seed_note": "SEEDED / FICTIONAL — public-safe sample for Settings → Import demos"
+    },
+    "chain_runs": []
+  }
+}
