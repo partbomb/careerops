@@ -21,6 +21,10 @@ Schema migrations are implemented in
 
 ## Export and import
 
+### Sample pack (fictional)
+
+Import [`fixtures/sample-board-pack.json`](fixtures/sample-board-pack.json) from **Settings → Your data** to populate a self-host board with seeded demo roles (Acme / Northwind / Contoso). Labeled **SEEDED / FICTIONAL** — no real PII, no API keys.
+
 Board packs are created by `buildBoardPack` and read through
 `importBoardPack` in `web/lib/board-pack.mjs`.
 
