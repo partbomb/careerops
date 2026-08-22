@@ -108,12 +108,46 @@ import {
 import { createDrawerVisibility } from './drawer.mjs'
 
 export function bootCareerOps() {
-const SUPABASE_URL = 'https://vqcjdqhcdhxjlznpqing.supabase.co'
-const SUPABASE_KEY = 'sb_publishable_nNiBFGj8_NHI2vksvZEpFw_D30oUi5x'
+const CONFIG = window.CAREEROPS_CONFIG || {}
+const SUPABASE_URL = CONFIG.supabaseUrl || 'https://vqcjdqhcdhxjlznpqing.supabase.co'
+const SUPABASE_KEY = CONFIG.supabaseAnonKey || 'sb_publishable_nNiBFGj8_NHI2vksvZEpFw_D30oUi5x'
 const sb = createClient(SUPABASE_URL, SUPABASE_KEY)
 const $ = byId
 const esc = escapeHtml
 const list = commaList
+let SELF_HOST_SETUP_ERROR = ''
+
+function selfHostSetupError(error){
+  const code = String(error?.code || '')
+  const message = String(error?.message || error || '')
+  const detail = String(error?.details || '')
+  const text = `${code} ${message} ${detail}`.toLowerCase()
+  const missingSchema = code === '42P01' || /relation .* does not exist|could not find the table|schema cache/.test(text)
+  const blockedByRls = code === '42501' || /permission denied|row-level security|not authorized/.test(text)
+  const badConfig = /invalid api key|no api key found|jwt malformed|invalid jwt|unauthorized/.test(text)
+  if(!(missingSchema || blockedByRls || badConfig)) return ''
+
+  const cause = missingSchema
+    ? 'CareerOps tables are missing from this Supabase project.'
+    : blockedByRls
+      ? 'Supabase is blocking this account from reading CareerOps data.'
+      : 'The Supabase URL or publishable key is not accepted.'
+  return `⚙️ <b>CareerOps needs a little Supabase setup.</b> ${cause} Check <code>web/config.js</code>, then apply <a href="https://github.com/TelivityAI/careerops/blob/main/supabase/schema.sql" target="_blank" rel="noopener">supabase/schema.sql</a> (or the migrations). For step-by-step help, see the <a href="https://github.com/TelivityAI/careerops/blob/main/docs/TROUBLESHOOTING.md" target="_blank" rel="noopener">self-host troubleshooting guide</a>.`
+}
+
+function showSelfHostSetupError(error){
+  const message = selfHostSetupError(error)
+  if(!message) return false
+  SELF_HOST_SETUP_ERROR = message
+  const banner = $('setupbanner')
+  if(banner){
+    banner.innerHTML = message
+    banner.classList.remove('hidden')
+  }
+  const status = $('status')
+  if(status) status.textContent = 'CareerOps could not load your Supabase data. Follow the setup steps above.'
+  return true
+}
 const DONATE_URL = 'https://donate.stripe.com/cNi7sK5PEfwy7lB9H6cV204'  // Stripe donation link — free forever, donations optional
 // Free-AI tier messages (single source of truth — shown wherever an AI call can fail or run out)
 // Behaviour log for future model training — action names + ids only, never resume/JD text
@@ -388,10 +422,12 @@ sb.auth.onAuthStateChange((ev,session)=>{
 if(new URLSearchParams(location.hash.slice(1)).get('type')==='recovery'){ RECOVERY=true }
 
 async function boot(){
-  const { data } = await sb.from('mt_profiles').select('*').eq('owner',ME.id).maybeSingle()
+  const { data, error } = await sb.from('mt_profiles').select('*').eq('owner',ME.id).maybeSingle()
+  if(error) SELF_HOST_SETUP_ERROR = selfHostSetupError(error)
   PROFILE = data
   FIND_PREFS = loadFindPrefs()
   $('auth').classList.add('hidden')
+  if(SELF_HOST_SETUP_ERROR){ showApp(); return }
   if(!PROFILE || (!PROFILE.onboarded && !localStorage.getItem('co_skip'))){ showOnboard() } else { showApp() }
 }
 
@@ -485,8 +521,10 @@ function showApp(){
   $('hello').textContent = PROFILE?.full_name ? ('· '+PROFILE.full_name) : ''
   if(DONATE_URL){ $('donate').href=DONATE_URL; $('donate').style.display='' }
   const needSetup = !PROFILE?.onboarded || !PROFILE?.resume_text
-  $('setupbanner').classList.toggle('hidden', !needSetup)
-  if(needSetup){
+  $('setupbanner').classList.toggle('hidden', !(SELF_HOST_SETUP_ERROR || needSetup))
+  if(SELF_HOST_SETUP_ERROR){
+    $('setupbanner').innerHTML = SELF_HOST_SETUP_ERROR
+  } else if(needSetup){
     $('setupbanner').innerHTML = '📝 <b>Finish your setup</b> — add your resume to unlock the free match reports and AI tailoring. <a href="#" id="finishsetup" style="color:#1f6feb;font-weight:600">Finish setup →</a>'
     $('finishsetup').onclick = (e)=>{ e.preventDefault(); showOnboard() }
   }
@@ -1292,6 +1330,7 @@ async function load(){
     if(rolesRes.error && /sent_at|column/i.test(rolesRes.error.message||'')){
       rolesRes = await sb.from('mt_roles').select('id,owner,company,title,level,url,source,fit_score,match_score,stage,ghost_risk,jd,notes,location,created_at,updated_at').order('created_at',{ascending:false})
     }
+    if(rolesRes.error){ showSelfHostSetupError(rolesRes.error); return }
     roles = rolesRes.data
   }
   {
@@ -1299,6 +1338,7 @@ async function load(){
     if(repsRes.error && /sent_at|column/i.test(repsRes.error.message||'')){
       repsRes = await sb.from('mt_reports').select('role_id,kind,match_score,created_at').order('created_at',{ascending:false})
     }
+    if(repsRes.error){ showSelfHostSetupError(repsRes.error); return }
     reps = repsRes.data
   }
   // Board cards used to ignore match reports — so Rank Sourced could "succeed" (report saved)
