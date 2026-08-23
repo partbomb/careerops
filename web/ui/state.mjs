@@ -5574,7 +5574,7 @@ function renderMemDiff(from, to){
 function renderMemList(){
   const wrap=$('mem_list'); if(!wrap) return
   const rows=(MEM_ROWS||[]).filter(r=>r.status!=='archived')
-  if(!rows.length){ wrap.innerHTML='<p class="muted" style="font-size:13px">No accomplishments yet — capture one above.</p>'; return }
+  if(!rows.length){ wrap.innerHTML='<p class="muted" style="font-size:13px">No accomplishments yet. Capture one above, or paste a GitHub or LinkedIn URL under "Enrich from URL" (paste an excerpt too — LinkedIn fetch may be blocked). After adding: <b>Polish</b> to improve wording → <b>Accept</b> to confirm → <b>Promote</b> to add it to your resume.</p>'; return }
   wrap.innerHTML=rows.map(r=>{
     const st=r.status||'inbox'
     const orig=r.body_original!==r.body_current?`<div class="muted" style="font-size:11.5px;margin-top:4px">Original: ${esc(r.body_original)}</div>`:''
@@ -5813,7 +5813,7 @@ $('mem_save')?.addEventListener('click', async ()=>{
 function renderPfList(){
   const wrap=$('pf_list'); if(!wrap) return
   const rows=(PF_ROWS||[]).filter(r=>!r.archived_at)
-  if(!rows.length){ wrap.innerHTML='<p class="muted" style="font-size:13px">No portfolio items yet.</p>'; return }
+  if(!rows.length){ wrap.innerHTML='<p class="muted" style="font-size:13px">No portfolio items yet. Add code, design, or product proof above. Only items marked <b>Resume OK</b> feed the builder — private items stay hidden.</p>'; return }
   wrap.innerHTML=rows.map(r=>`<div class="card" style="padding:12px;margin:8px 0">
     <div style="font-weight:600">${esc(r.title)} <span class="muted" style="font-weight:400">· ${esc(r.item_type)} · ${esc(r.visibility)}</span></div>
     <div style="font-size:13px;margin-top:4px;line-height:1.45">${esc(r.summary||r.body_current||'')}</div>
