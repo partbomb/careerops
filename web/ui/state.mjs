@@ -1330,7 +1330,7 @@ async function load(){
     if(rolesRes.error && /sent_at|column/i.test(rolesRes.error.message||'')){
       rolesRes = await sb.from('mt_roles').select('id,owner,company,title,level,url,source,fit_score,match_score,stage,ghost_risk,jd,notes,location,created_at,updated_at').order('created_at',{ascending:false})
     }
-    if(rolesRes.error){ showSelfHostSetupError(rolesRes.error); return }
+    if(showSelfHostSetupError(rolesRes.error)) return
     roles = rolesRes.data
   }
   {
@@ -1338,7 +1338,7 @@ async function load(){
     if(repsRes.error && /sent_at|column/i.test(repsRes.error.message||'')){
       repsRes = await sb.from('mt_reports').select('role_id,kind,match_score,created_at').order('created_at',{ascending:false})
     }
-    if(repsRes.error){ showSelfHostSetupError(repsRes.error); return }
+    if(showSelfHostSetupError(repsRes.error)) return
     reps = repsRes.data
   }
   // Board cards used to ignore match reports — so Rank Sourced could "succeed" (report saved)

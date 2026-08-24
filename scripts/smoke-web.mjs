@@ -123,7 +123,8 @@ const requiredStrings = [
   { name: 'invalid key setup banner', re: /The Supabase URL or publishable key is not accepted/ },
   { name: 'self-host troubleshooting link', re: /docs\/TROUBLESHOOTING\.md/ },
   { name: 'initial profile read handles setup error', re: /mt_profiles'\)\.select\('\*'\).*?if\(error\) SELF_HOST_SETUP_ERROR = selfHostSetupError\(error\)/s },
-  { name: 'initial roles read handles setup error', re: /rolesRes\.error\)\{ showSelfHostSetupError\(rolesRes\.error\); return \}/ },
+  { name: 'initial roles read handles setup error', re: /if\(showSelfHostSetupError\(rolesRes\.error\)\) return/ },
+  { name: 'initial reports read handles setup error', re: /if\(showSelfHostSetupError\(repsRes\.error\)\) return/ },
   // HTML comments must not leak private stamp markers (b + east branding)
   { name: 'no private stamp leak', re: new RegExp('<!--\\s*' + 'be' + 'ast' + '-', 'i'), invert: true },
 ]
