@@ -117,6 +117,14 @@ const requiredStrings = [
   { name: 'no standalone chat modal', re: /Job-search chat/, invert: true },
   { name: 'resume_struct canonical doctrine', re: /resume_struct is canonical|Structured resume modified/i },
   { name: 'memory provenance original', re: /Original text stays immutable|body_original/i },
+  { name: 'self-host setup error classifier', re: /function selfHostSetupError\(error\)/ },
+  { name: 'missing schema setup banner', re: /CareerOps tables are missing from this Supabase project/ },
+  { name: 'RLS setup banner', re: /Supabase is blocking this account from reading CareerOps data/ },
+  { name: 'invalid key setup banner', re: /The Supabase URL or publishable key is not accepted/ },
+  { name: 'self-host troubleshooting link', re: /docs\/TROUBLESHOOTING\.md/ },
+  { name: 'initial profile read handles setup error', re: /mt_profiles'\)\.select\('\*'\).*?if\(error\) SELF_HOST_SETUP_ERROR = selfHostSetupError\(error\)/s },
+  { name: 'initial roles read handles setup error', re: /if\(showSelfHostSetupError\(rolesRes\.error\)\) return/ },
+  { name: 'initial reports read handles setup error', re: /if\(showSelfHostSetupError\(repsRes\.error\)\) return/ },
   // HTML comments must not leak private stamp markers (b + east branding)
   { name: 'no private stamp leak', re: new RegExp('<!--\\s*' + 'be' + 'ast' + '-', 'i'), invert: true },
 ]
