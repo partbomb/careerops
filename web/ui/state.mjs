@@ -4564,6 +4564,29 @@ $('scrim')?.addEventListener('click', ()=>{
   rp2FlushSel(); closeDrawer()
 })
 document.addEventListener('keydown', e=>{
+  if(e.key==='Tab'){
+    const modal = document.querySelector('.modal:not(.hidden)')
+    if(modal){
+      const focusable = Array.from(modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'))
+        .filter(el => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden') && (el.offsetWidth > 0 || el.offsetHeight > 0))
+      if(focusable.length){
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+        if(e.shiftKey){
+          if(document.activeElement === first || !modal.contains(document.activeElement)){
+            e.preventDefault(); last.focus()
+          }
+        }else{
+          if(document.activeElement === last || !modal.contains(document.activeElement)){
+            e.preventDefault(); first.focus()
+          }
+        }
+      } else {
+        e.preventDefault()
+      }
+    }
+    return
+  }
   if(e.key!=='Escape') return
   if(!$('builderView')?.classList.contains('hidden')){ closeBuilder(); return }
   if(!$('drawer')?.classList.contains('hidden')){
